@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">  
+  <modelVersion>4.0.0</modelVersion>  
+  <groupId>com.senxiu.xm</groupId>  
+  <artifactId>ssm_notebook</artifactId>  
+  <version>1.0-SNAPSHOT</version>  
+  <packaging>war</packaging>  
+  <properties> 
+    <maven.compiler.source>17</maven.compiler.source>  
+    <maven.compiler.target>17</maven.compiler.target>  
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
+  </properties>  
+  <!--
+     需要依赖清单分析:
+        spring
+          ioc/di
+            spring-context /
+            jakarta.annotation-api /
+          aop
+            spring-aspects /
+          tx
+            spring-tx  /
+            spring-jdbc /
+
+        springmvc
+           spring-webmvc 6.0.6
+           jakarta.jakartaee-web-api 9.1.0
+           jackson-databind 2.15.0
+           hibernate-validator / hibernate-validator-annotation-processor 8.0.0.Final
+
+        mybatis
+           mybatis  / 3.5.11
+           mysql    / 8.0.25
+           pagehelper / 5.1.11
+
+        整合需要
+           加载spring容器 spring-web / 6.0.6
+           整合mybatis   mybatis-spring x x
+           数据库连接池    druid / x
+           lombok        lombok / 1.18.26
+           logback       logback/ 1.2.3
+  -->  
+  <dependencies> 
+    <dependency> 
+      <groupId>org.springframework</groupId>  
+      <artifactId>spring-context</artifactId>  
+      <version>6.2.0</version>  
+      <!-- Spring Context提供了Spring框架的核心功能，包括IoC容器、应用程序上下文等 --> 
+    </dependency>  
+    <dependency> 
+      <groupId>jakarta.annotation</groupId>  
+      <artifactId>jakarta.annotation-api</artifactId>  
+      <version>3.0.0</version>  
+      <!-- Jakarta Annotation API提供了对Java注解的支持 --> 
+    </dependency>  
+    <dependency> 
+      <groupId>org.springframework</groupId>  
+      <artifactId>spring-aop</artifactId>  
+      <version>6.2.0</version>  
+      <!-- Spring AOP提供了面向切面编程的功能，允许开发者定义切面、连接点等 --> 
+    </dependency>  
+    <dependency> 
+      <groupId>org.springframework</groupId>  
+      <artifactId>spring-aspects</artifactId>  
+      <version>6.2.0</version>  
+      <!-- Spring Aspects提供了Spring AOP相关的方面支持 --> 
+    </dependency>  
+    <dependency> 
+      <groupId>org.springframework</groupId>  
+      <artifactId>spring-tx</artifactId>  
+      <version>6.2.0</version>  
+      <!-- Spring TX提供了事务管理的支持，可用于声明式事务管理 --> 
+    </dependency>  
+    <dependency> 
+      <groupId>org.springframework</groupId>  
+      <artifactId>spring-jdbc</artifactId>  
+      <version>6.2.0</version>  
+      <!-- Spring JDBC简化了JDBC操作，提供了对数据库的访问支持 --> 
+    </dependency>  
+    <dependency> 
+      <groupId>org.springframework</groupId>  
+      <artifactId>spring-webmvc</artifactId>  
+      <version>6.2.0</version>  
+      <!-- Spring Web MVC是Spring框架的Web模块，提供MVC架构的支持 --> 
+    </dependency>  
+    <dependency> 
+      <groupId>jakarta.platform</groupId>  
+      <artifactId>jakarta.jakartaee-web-api</artifactId>  
+      <version>10.0.0</version>  
+      <scope>provided</scope>  
+      <!-- Jakarta EE Web API提供了Web相关的Java EE API，包括Servlet、JSP等 --> 
+    </dependency>  
+    <dependency> 
+      <groupId>jakarta.servlet.jsp.jstl</groupId>  
+      <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>  
+      <version>3.0.2</version>  
+      <!-- JSTL为JSP提供了一组标准的标签库，用于简化JSP页面的开发 --> 
+    </dependency>  
+    <dependency> 
+      <groupId>com.fasterxml.jackson.core</groupId>  
+      <artifactId>jackson-databind</artifactId>  
+      <version>2.18.2</version>  
+      <!-- Jackson是一个用于转换Java对象与JSON数据的库 --> 
+    </dependency>  
+    <dependency> 
+      <groupId>org.hibernate.validator</groupId>  
+      <artifactId>hibernate-validator</artifactId>  
+      <version>8.0.1.Final</version>  
+      <!-- Hibernate Validator是Java Bean验证的参考实现 --> 
+    </dependency>  
+    <dependency> 
+      <groupId>org.hibernate.validator</groupId>  
+      <artifactId>hibernate-validator-annotation-processor</artifactId>  
+      <version>8.0.1.Final</version>  
+      <!-- Hibernate Validator的注解处理器，用于支持注解配置的验证 --> 
+    </dependency>  
+    <!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->  
+    <dependency> 
+      <groupId>jakarta.validation</groupId>  
+      <artifactId>jakarta.validation-api</artifactId>  
+      <version>3.1.0</version>  
+      <!-- Jakarta Bean Validation是Java Bean验证的参考实现 --> 
+    </dependency>  
+    <dependency> 
+      <groupId>org.mybatis</groupId>  
+      <artifactId>mybatis</artifactId>  
+      <version>3.5.17</version>  
+      <!-- MyBatis是一个持久层框架，支持定制化的SQL查询 --> 
+    </dependency>  
+    <dependency> 
+      <groupId>com.mysql</groupId>  
+      <artifactId>mysql-connector-j</artifactId>  
+      <version>9.1.0</version>  
+      <!-- MySQL Connector/J是MySQL数据库的JDBC驱动 --> 
+    </dependency>  
+    <dependency> 
+      <groupId>com.github.pagehelper</groupId>  
+      <artifactId>pagehelper</artifactId>  
+      <version>6.1.0</version>  
+      <!-- PageHelper是MyBatis的分页插件，用于简化分页查询的构建 --> 
+    </dependency>  
+    <dependency> 
+      <groupId>org.springframework</groupId>  
+      <artifactId>spring-web</artifactId>  
+      <version>6.2.0</version>  
+      <!-- Spring Web提供Web相关的功能，包括多种协助Controller的方式 --> 
+    </dependency>  
+    <dependency> 
+      <groupId>org.mybatis</groupId>  
+      <artifactId>mybatis-spring</artifactId>  
+      <version>3.0.4</version>  
+      <!-- MyBatis-Spring为MyBatis与Spring的整合提供支持 --> 
+    </dependency>  
+    <dependency> 
+      <groupId>com.alibaba</groupId>  
+      <artifactId>druid</artifactId>  
+      <version>1.2.24</version>  
+      <!-- Druid是一个数据库连接池，提供监控、扩展等功能 --> 
+    </dependency>  
+    <dependency> 
+      <groupId>org.projectlombok</groupId>  
+      <artifactId>lombok</artifactId>  
+      <version>1.18.36</version>  
+      <scope>provided</scope>  
+      <!-- Lombok是一个Java库，用于减少样板代码，如getter、setter等 --> 
+    </dependency>  
+    <dependency> 
+      <groupId>ch.qos.logback</groupId>  
+      <artifactId>logback-classic</artifactId>  
+      <version>1.5.12</version>  
+      <scope>test</scope>  
+      <!-- Logback是一个日志记录框架，用于Java应用程序的日志记录 --> 
+    </dependency> 
+  </dependencies> 
+</project>

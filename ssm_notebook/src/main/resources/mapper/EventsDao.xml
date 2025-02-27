@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.senxiu.mapper.EventsDao">
+
+    <resultMap type="com.senxiu.entity.Events" id="EventsMap">
+        <result property="eId" column="e_id" jdbcType="INTEGER"/>
+        <result property="uId" column="u_id" jdbcType="INTEGER"/>
+        <result property="cId" column="c_id" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="startDate" column="start_date" jdbcType="TIMESTAMP"/>
+        <result property="endDate" column="end_date" jdbcType="TIMESTAMP"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="level" column="level" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!-- 查询单个事件通过事件ID -->
+    <select id="queryById" resultMap="EventsMap">
+        select
+            *
+        from events
+        where e_id = #{eId} <!-- 条件为事件ID -->
+    </select>
+
+    <!-- 查询符合条件的事件数据，支持分页 -->
+    <select id="queryAllByLimit" resultMap="EventsMap">
+        select
+            *
+        from events
+        <where>
+            <if test="eId != null"> <!-- 如果事件ID不为空 -->
+                and e_id = #{eId}
+            </if>
+            <if test="uId != null"> <!-- 如果用户ID不为空 -->
+                and u_id = #{uId}
+            </if>
+            <if test="cId != null"> <!-- 如果分类ID不为空 -->
+                and c_id = #{cId}
+            </if>
+            <if test="title != null and title != ''"> <!-- 如果标题不为空 -->
+                and title = #{title}
+            </if>
+            <if test="startDate != null"> <!-- 如果开始日期不为空 -->
+                and start_date = #{startDate}
+            </if>
+            <if test="endDate != null"> <!-- 如果结束日期不为空 -->
+                and end_date = #{endDate}
+            </if>
+            <if test="content != null and content != ''"> <!-- 如果内容不为空 -->
+                and content = #{content}
+            </if>
+            <if test="level != null"> <!-- 如果级别不为空 -->
+                and level = #{level}
+            </if>
+            <if test="status != null"> <!-- 如果状态不为空 -->
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <!-- 计算事件的总行数 -->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from events
+        <where>
+            <if test="eId != null"> <!-- 如果事件ID不为空 -->
+                and e_id = #{eId}
+            </if>
+            <if test="uId != null"> <!-- 如果用户ID不为空 -->
+                and u_id = #{uId}
+            </if>
+            <if test="cId != null"> <!-- 如果分类ID不为空 -->
+                and c_id = #{cId}
+            </if>
+            <if test="title != null and title != ''"> <!-- 如果标题不为空 -->
+                and title = #{title}
+            </if>
+            <if test="startDate != null"> <!-- 如果开始日期不为空 -->
+                and start_date = #{startDate}
+            </if>
+            <if test="endDate != null"> <!-- 如果结束日期不为空 -->
+                and end_date = #{endDate}
+            </if>
+            <if test="content != null and content != ''"> <!-- 如果内容不为空 -->
+                and content = #{content}
+            </if>
+            <if test="level != null"> <!-- 如果级别不为空 -->
+                and level = #{level}
+            </if>
+            <if test="status != null"> <!-- 如果状态不为空 -->
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <!-- 新增一条事件记录 -->
+    <insert id="insert" keyProperty="eId" useGeneratedKeys="true">
+        insert into events(u_id,c_id,title,start_date,end_date,content,level,status)
+        values (#{uId},#{cId},#{title},#{startDate},#{endDate},#{content},#{level},#{status})
+    </insert>
+
+    <!-- 批量新增事件记录 -->
+    <insert id="insertBatch" keyProperty="eId" useGeneratedKeys="true">
+        insert into events(u_id,c_id,title,start_date,end_date,content,level,status)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.uId},#{entity.cId},#{entity.title},#{entity.startDate},#{entity.endDate},#{entity.content},#{entity.level},#{entity.status})
+        </foreach>
+    </insert>
+
+    <!-- 批量新增或更新事件记录 -->
+    <insert id="insertOrUpdateBatch" keyProperty="eId" useGeneratedKeys="true">
+        insert into events(u_id,c_id,title,start_date,end_date,content,level,status)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.uId},#{entity.cId},#{entity.title},#{entity.startDate},#{entity.endDate},#{entity.content},#{entity.level},#{entity.status})
+        </foreach>
+        on duplicate key update
+        u_id = values(u_id), c_id = values(c_id), title = values(title), start_date = values(start_date), end_date = values(end_date), content = values(content), level = values(level), status = values(status)
+    </insert>
+
+    <!-- 通过事件ID更新事件记录 -->
+    <update id="update">
+        update events
+        <set>
+            <if test="uId != null"> <!-- 如果用户ID不为空 -->
+                u_id = #{uId},
+            </if>
+            <if test="cId != null"> <!-- 如果分类ID不为空 -->
+                c_id = #{cId},
+            </if>
+            <if test="title != null and title != ''"> <!-- 如果标题不为空 -->
+                title = #{title},
+            </if>
+            <if test="startDate != null"> <!-- 如果开始日期不为空 -->
+                start_date = #{startDate},
+            </if>
+            <if test="endDate != null"> <!-- 如果结束日期不为空 -->
+                end_date = #{endDate},
+            </if>
+            <if test="content != null and content != ''"> <!-- 如果内容不为空 -->
+                content = #{content},
+            </if>
+            <if test="level != null"> <!-- 如果级别不为空 -->
+                level = #{level},
+            </if>
+            <if test="status != null"> <!-- 如果状态不为空 -->
+                status = #{status},
+            </if>
+        </set>
+        where e_id = #{eId} <!-- 条件为事件ID -->
+    </update>
+
+    <!-- 通过事件ID删除事件记录 -->
+    <delete id="deleteById">
+        delete from events where e_id = #{eId} <!-- 条件为事件ID -->
+    </delete>
+
+</mapper>
+
